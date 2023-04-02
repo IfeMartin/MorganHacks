@@ -1,0 +1,191 @@
+var myRec = new p5.SpeechRec(); // new P5.SpeechRec object
+	myRec.continuous = true; // do continuous recognition
+	//myRec.interimResults = true;
+// set inventory numbers
+var appct = 15
+var bnact = 12
+var beanct = 83
+var brdct = 60
+var cerct = 35
+var formct = 17
+var oract = 7
+var pastct = 24
+var soupct = 76
+var vegct = 60
+var count
+
+
+
+function preload() {
+  //food
+  apples = loadImage('apples.jpeg')
+  banana = loadImage('banana.jpeg')
+  beans = loadImage('beans.jpeg')
+  bread = loadImage('bread.jpeg')
+  cereal = loadImage('cereal.jpeg')
+  formula = loadImage('formula.jpeg')
+  orange = loadImage('orange.jpeg')
+  pasta = loadImage('pasta.jpeg')
+  soup = loadImage('soup.jpeg')
+  veg = loadImage('veg.jpeg')
+}
+function setup() {
+	createCanvas(572, 382);
+  rectMode(CENTER)
+  drawBack()
+  myRec.onResult = countIt;
+  console.log("hi")
+	myRec.start()
+  console.log("hi again")
+}
+
+function mouseClicked(){
+  print(mouseX, mouseY)
+
+}
+
+function drawBack(){
+  background(84, 194, 244)
+  // title
+  textSize(20)
+  text("Today's Inventory", 212, 30)
+  //images print out
+  image(apples,10,74,100,100);
+  image(banana,130,74,100,100);
+  image(beans,245, 74,100,100);
+  image(bread,355,74,100,100);
+  image(cereal, 465, 74,100,100);
+  image(formula, 10, 225,100,100);
+  image(orange, 130, 225, 100,100)
+  image(pasta, 245, 225, 100,100)
+  image(soup, 355, 225, 100,100)
+  image(veg, 465, 225, 100,100)
+  //counts print out
+  textSize(15)
+  text("Log: ", 230, 362)
+  text(appct+" avail.", 35, 195)
+  text(bnact+" avail.", 158, 195)
+  text(beanct+" avail.", 270, 195)
+  text(brdct+" avail.", 385, 195)
+  text(cerct+" avail.", 488, 195)
+  
+  text(formct+" avail.", 35, 345)
+  text(oract+" avail.", 158, 345)
+  text(pastct+" avail.", 270, 345)
+  text(soupct+" avail.", 385, 345)
+  text(vegct+" avail.", 488, 345)
+}
+// gets count of order
+function countIt(){
+  lg = myRec.resultString
+  console.log(lg)
+  if(myRec.resultValue==true){
+    if(lg == "one"){
+      count = 1
+      text(count, 280, 362)
+      myRec = new p5.SpeechRec()
+      myRec.onResult = logIn;
+	    myRec.start()
+    }
+    else if(lg == "two"){
+      count = 2
+      text(count, 280, 362)
+      myRec = new p5.SpeechRec()
+      myRec.onResult = logIn;
+	    myRec.start()
+    }
+    else if(lg == "three"){
+      count = 3
+      text(count, 280, 362)
+      myRec = new p5.SpeechRec()
+      myRec.onResult = logIn;
+	    myRec.start()
+    }
+    else if(lg == "four"){
+      count = 4
+      text(count, 280, 362)
+      myRec = new p5.SpeechRec()
+      myRec.onResult = logIn;
+	    myRec.start()
+    }
+    else{
+      myRec = new p5.SpeechRec()
+			myRec.onResult = countIt;
+      myRec.start()
+    }
+  }
+}
+
+// obtains object name
+function logIn(){
+  lg = myRec.resultString
+  lg = lg.toLowerCase()
+  if(myRec.resultValue==true){
+    console.log(lg)
+    //lg = myRec.resultString
+    if(lg.includes('apple')){
+      text(lg, 318, 362)
+      appct -= count
+      updateCt()
+    }
+    else if(lg.includes('banana')){
+      text(lg, 318, 362)
+      bnact -= count
+      updateCt()
+    }
+    else if(lg.includes('beans')){
+      text(lg, 318, 362)
+      beanct -= count
+      updateCt()
+    }
+    else if(lg.includes('bread')){
+      text(lg, 318, 362)
+      brdct -= count
+      updateCt(brdct)
+    }
+    else if(lg.includes('formula')){
+      text(lg, 318, 362)
+      formct -= count
+      updateCt(formct)
+    }
+    else if(lg.includes('cereal')){
+      text(lg, 318, 362)
+      cerct -= count
+      updateCt(cerct)
+    }
+    else if(lg.includes('orange')){
+      text(lg, 318, 362)
+      oract -= count
+      updateCt(oract)
+    }
+    else if(lg.includes('pasta')){
+      text(lg, 318, 362)
+      pastct -= count
+      updateCt(pastct)
+    }
+    else if(lg.includes('soup')){
+      text(lg, 318, 362)
+      soupct -= count
+      updateCt(soupct)
+    }
+    else if(lg.includes('vegtables')){
+      text(lg, 318, 362)
+      vegct -= count
+      updateCt(vegct)
+    }
+    else{
+      myRec = new p5.SpeechRec()
+			myRec.onResult = logIn;
+      myRec.start()
+    }
+  }
+}
+
+//loops it
+function updateCt(){
+  drawBack()
+  myRec = new p5.SpeechRec()
+	myRec.onResult = countIt;
+  myRec.start()
+  
+}
